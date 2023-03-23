@@ -1,0 +1,15 @@
+.card {
+    width: 200px;
+    height: 200px;
+    border: 1px solid lightgreen;
+    border-radius: 20px;
+    padding: 20px;
+    margin: 10px;
+    transition: background 1s, color 1s;
+  }
+  
+  .card:hover {
+    background: lightgreen;
+    color: black;
+  }
+  
