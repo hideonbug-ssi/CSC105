@@ -1,0 +1,22 @@
+.favoriteSites {
+    margin: 20px;
+  }
+  
+  .favoriteSites ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .favoriteSites li a {
+    color: lightgreen;
+    text-decoration: none;
+  }
+  
+  .favoriteSites li a:visited {
+    color: lightgreen;
+  }
+  
+  .favoriteSites li a:hover {
+    color: red;
+  }
+  

@@ -1,0 +1,16 @@
+.profile{
+    width: 40%;
+    margin: 20px;
+    padding: 20px;
+    transition: border 1s, color 1s;
+    flex-direction: column;
+    text-align: center;
+}
+
+.profile:hover{
+    border: 1px solid red;
+}
+
+.profile:hover h2{
+    color: red;
+}

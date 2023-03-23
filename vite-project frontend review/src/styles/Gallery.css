@@ -1,0 +1,16 @@
+.gallery {
+    margin: 20px;
+}
+  
+.gallery img {
+    transition: transform 1s;
+}
+  
+.gallery img:hover {
+    transform: scale(1.2);
+}
+
+.gallery ul{
+    list-style-type: none;
+
+}
