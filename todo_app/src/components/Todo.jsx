@@ -5,35 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { TextField, Typography } from "@mui/material";
 
-function Todo() {
-  const [todo, setTodo] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [todoInput, setTodoInput] = useState("");
-  const [todoError, settodoError] = useState(true);
-
-  //Modal Function
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  //Handle Add
-  function handleAdd() {
-    setTodo([...todo, todoInput]);
-    setTodoInput("");
-    settodoError(true);
-    handleClose();
-  }
-
-  //Handle Input Change
-  function handleInput(e) {
-    setTodoInput(e.target.value);
-    if (e.target.value === null || e.target.value === "") {
-      settodoError(true);
-    } else {
-      settodoError(false);
-    }
-  }
-
-  const addNewTaskBarStyle = {
+const addNewTaskBarStyle = {
     padding: "20px",
     background: "#fefffe",
     width: { xs: "300px", md: "500px" },
@@ -97,6 +69,34 @@ function Todo() {
     backgroundColor: "white",
     boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
   };
+
+function Todo() {
+  const [todo, setTodo] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [todoInput, setTodoInput] = useState("");
+  const [todoError, settodoError] = useState(true);
+
+  //Modal Function
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  //Handle Add
+  function handleAdd() {
+    setTodo([...todo, todoInput]);
+    setTodoInput("");
+    settodoError(true);
+    handleClose();
+  }
+
+  //Handle Input Change
+  function handleInput(e) {
+    setTodoInput(e.target.value);
+    if (e.target.value === null || e.target.value === "") {
+      settodoError(true);
+    } else {
+      settodoError(false);
+    }
+  }
 
   return (
     <>
