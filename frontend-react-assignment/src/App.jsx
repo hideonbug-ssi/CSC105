@@ -8,25 +8,25 @@ import MyForm from './components/MyForm';
 
 function App() {
   const user = {
-    name: 'Pipatpol Jirawatpapha',
-    job: 'CS Student',
-    hobby: 'Playing Games'
+    name: 'Name: Pipatpol Jirawatpapha',
+    job: 'Job: CS Student',
+    hobby: 'Hobby: Playing Games'
   }
   
   const users = [{
-    name: 'Pipatpol Jirawatpapha',
-    job: 'Student',
-    hobby: 'Playing video games'
+    name: 'Name: Pipatpol Jirawatpapha',
+    job: 'Job: Student',
+    hobby: 'Hobby: Playing video games'
   },
   {
-    name: 'Pipatpol Jirawatpapha',
-    job: 'Student',
-    hobby: 'Playing piano'
+    name: 'Name: Pipatpol Jirawatpapha',
+    job: 'Job: Student',
+    hobby: 'Hobby: Playing piano'
   },
   {
-    name: 'Pipatpol Jirawatpapha',
-    job: 'Student',
-    hobby: 'Sleeping'
+    name: 'Name: Pipatpol Jirawatpapha',
+    job: 'Job: Student',
+    hobby: 'Hobby: Sleeping'
   }]
 
   return (
