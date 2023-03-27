@@ -14,7 +14,7 @@ const Content = () => {
     >
       <Grid item xs={6}>
         <Box>
-          <Typography variant="h4" sx={{ mb: 2 }}>
+          <Typography variant="h4" sx={{ mb: 1 }}>
             Welcome to My Website
           </Typography>
           <Typography variant="body1" sx={{ mb: 2 }}>

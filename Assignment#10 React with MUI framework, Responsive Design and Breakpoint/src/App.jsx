@@ -8,11 +8,11 @@ import Rightbar from "./components/Rightbar";
 
 function App() {
   return (
-    <div className="App">
+
       <Box>
         <Nav />
         <Container>
-          <Grid container spacing={3}>
+          <Grid container spacing={3} pt={3}>
             <Grid item md={3}>
               <Sidebar />
             </Grid>
@@ -25,7 +25,7 @@ function App() {
           </Grid>
         </Container>
       </Box>
-    </div>
+
   );
 }
 

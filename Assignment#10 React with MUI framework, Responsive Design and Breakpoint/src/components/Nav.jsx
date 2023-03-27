@@ -18,9 +18,9 @@ function Nav() {
 
   return (
     <Box >
-      <AppBar  position="static" sx={{ backgroundColor: "#20232a" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#20232a" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h5" sx={{ color: "#fff" }}>
+          <Typography variant="h5" sx={{ color: "#FFF" }}>
             My Website
           </Typography>
           <IconButton

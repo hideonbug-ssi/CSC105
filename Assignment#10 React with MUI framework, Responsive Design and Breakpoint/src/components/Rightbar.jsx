@@ -22,17 +22,17 @@ const japaneseFoodImages = [
 
 const Rightbar = () => {
   return (
-    <Box sx={{ display: { xs: "none", md: "block" } }}>
-      <Box display={"flex"} flexDirection={"column"} mt={2} mb={2}>
+    <Box sx={{ display: { xs: "none", md: "block" } } } pr={5}>
+      <Box display={"flex"} flexDirection={"column"} mt={2} mb={2} m>
         <Typography variant="h6" fontWeight={100}>
-          Japanese Food
+          Latest Photos
         </Typography>
         <ImageList sx={{ width: 250 }} cols={2}>
           {japaneseFoodImages.map((item) => (
             <ImageListItem key={item.img}>
               <img
-                src={`${item.img}?w=250&h=500&fit=crop&auto=format`}
-                srcSet={`${item.img}?w=250&h=500&fit=crop&auto=format&dpr=2 2x`}
+                src={`${item.img}`}
+                srcSet={`${item.img}`}
                 alt={item.title}
                 loading="lazy"
               />
