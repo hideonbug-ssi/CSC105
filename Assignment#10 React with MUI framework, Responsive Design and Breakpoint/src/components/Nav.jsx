@@ -20,7 +20,7 @@ function Nav() {
     <Box >
       <AppBar position="static" sx={{ backgroundColor: "#20232a" }}>
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h5" sx={{ color: "#FFF" }}>
+          <Typography variant="h6" sx={{ color: "#FFF" }}>
             My Website
           </Typography>
           <IconButton
