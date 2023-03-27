@@ -9,7 +9,7 @@ export default function BottomNav() {
   const [value, setValue] = React.useState("");
   // const navigate = useNavigate();
   const handleChange = (event, newValue) => {
-    // navigate(`/${newValue}`);
+    setValue(newValue);
   };
 
   return (

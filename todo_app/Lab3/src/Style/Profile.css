@@ -9,8 +9,6 @@ img{
     margin: 0;
     width: 200px;
     height: 200px;
-    background-position: center center;
-    background-repeat: no-repeat;
 }
 
 .name{
@@ -25,5 +23,5 @@ hr{
     background-color: #a06bff;
     height: 5px;
     border-radius: 20px;
-    border: none;
+    border: none 0;
 }

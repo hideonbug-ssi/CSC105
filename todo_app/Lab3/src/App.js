@@ -1,7 +1,7 @@
 
 import "./Style/App.css";
-import Home from './components/Home';
-import Todo from './components/Todo';
+// import Home from './components/Home';
+// import Todo from './components/Todo';
 import TodoPage from "./pages/TodoPage";
 
 

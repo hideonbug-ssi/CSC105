@@ -10,7 +10,7 @@ function TodoPage() {
         display: { md: "flex" },
         flexDirection: { md: "row" },
         justifyContent: "center",
-        alignItems: "cneter",
+        alignItems: "center",
         height: "100vh",
       }}
     >
