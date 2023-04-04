@@ -1,0 +1,22 @@
+.App{
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.home {
+    width: 30%;
+}
+
+.todo{
+    width: 70%;
+    background-color: #a08bff;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

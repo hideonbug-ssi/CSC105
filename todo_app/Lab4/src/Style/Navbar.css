@@ -1,0 +1,25 @@
+li{
+    margin: 30px 0px;
+    font-size: 1.3rem;
+    list-style-type: none;
+    padding: 15px 80px;
+    border-radius: 20px;
+    background-color: aliceblue;
+}
+
+.task{
+    font-size: 2rem;
+    font-weight: 500;
+    color: #727373;
+}
+
+.inactive-link{
+    color: black;
+    text-decoration: none;
+}
+
+.active-link{
+    color: white;
+    background-color: #a08bff;
+    text-decoration: none;
+}
