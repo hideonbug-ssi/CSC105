@@ -6,7 +6,7 @@ const Profile = () => {
 
   return (
     <div>
-      <p>This Student ID of user is {studentId}</p>
+      <p className="typing-effect">This Student ID of user is {studentId}</p>
     </div>
   );
 };

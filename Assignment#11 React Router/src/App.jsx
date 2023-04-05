@@ -21,13 +21,14 @@ function App() {
     if (username === correctUsername && password === correctPassword) {
       setIsLoggedIn(true);
     } else {
-      alert("Incorrect username or password");
+      navigate("/error");
     }
   };
 
   return (
     <div className="App">
       <Routes>
+        <Route path="/error" element={<Error />} />
         <Route path="/" element={<Home />} exact />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

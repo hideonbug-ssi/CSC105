@@ -10,7 +10,7 @@ function Contact() {
   
   return (
     <div>
-      <h1>This is Contact page</h1>
+      <h1 className="typing-effect">This is Contact page</h1>
       <div className="button-container">
         <button onClick={navigateToHome}>Redirect</button>
       </div>
