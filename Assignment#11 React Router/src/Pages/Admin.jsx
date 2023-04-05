@@ -26,7 +26,7 @@ function Admin({ isLoggedIn, setIsLoggedIn }) {
     width: '150px',
     height: '150px',
     objectFit: 'cover',
-    borderRadius: '60%',
+    borderRadius: '30px',
   };
 
   return (
