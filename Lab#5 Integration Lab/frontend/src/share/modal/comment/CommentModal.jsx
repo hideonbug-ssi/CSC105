@@ -1,15 +1,17 @@
 import { Box, Button, Card, Modal, TextField } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useKeyDown } from '../../../hooks/useKeyDown';
 import CommentCard from './components/CommentCard';
 import Cookies from 'js-cookie';
 import Axios from '../../AxiosInstance';
 import { AxiosError } from 'axios';
+import GlobalContext from '../../Context/GlobalContext';
 
 const CommentModal = ({ open = false, handleClose = () => {} }) => {
   const [textField, setTextField] = useState('');
   const [comments, setComments] = useState([]);
   const [error, setError] = useState("");
+  const { setStatus } = useContext(GlobalContext);
 
   useKeyDown(() => {
     handleAddComment();
@@ -19,23 +21,15 @@ const CommentModal = ({ open = false, handleClose = () => {} }) => {
     // TODO: Implement get comment by user's token
     // 1. check if user is logged in
     const userToken = Cookies.get('UserToken');
-    if (userToken !== undefined && userToken !== 'undefined') {
-      // 2. call API to get comment
-      Axios.get('/comment', { headers: { Authorization: `Bearer ${userToken}` } }).then((res) => {
-        // 3. set comment to state
-        setComments(res.data.data);
-      });
-    }
+    Axios.get('/comment', { headers: { Authorization: `Bearer ${userToken}` } }).then((res) => {
+      // 3. set notes to state
+      const comments = res.data.data.map((comment) => ({
+        id: comment.id,
+        msg: comment.text,
+      }));
+      setComments(comments);
+    });
   }, []);
-
-  const validateForm = () => {
-    if (textField == ""){
-      setError("Please input text!")
-      return false;
-    }
-    setError("")
-    return true;
-  }
 
   const handleAddComment = async () => {
     // 1. validate form
@@ -45,13 +39,13 @@ const CommentModal = ({ open = false, handleClose = () => {} }) => {
     // 2. call API to create comment
     try{
       const userToken = Cookies.get('UserToken');
-      const response = await Axios.post('/comment', newComment,{
+      const response = await Axios.post('/comment', {text:textField},{
         headers: { Authorization: `Bearer ${userToken}` },
       });
       // 3. if successful, add new comment to state and close modal
       if(response.data.success){
         setStatus({severity: 'success', msg: 'Create comment successfully'});
-        setComments((prev) => [...prev, response.data.data]);
+        setComments([...comments, { id: Math.random(), msg: textField }]);
         resetAndClose();
       }
     }catch(error){
@@ -61,6 +55,16 @@ const CommentModal = ({ open = false, handleClose = () => {} }) => {
         setStatus({severity: 'error', msg: error.message});
       }
     }
+  };
+
+  const validateForm = () => {
+    if (textField == ""){
+      setError("Please input text!")
+      return false;
+    }
+    setError("");
+    setTextField("");
+    return true;
   };
 
   const resetAndClose = () => {

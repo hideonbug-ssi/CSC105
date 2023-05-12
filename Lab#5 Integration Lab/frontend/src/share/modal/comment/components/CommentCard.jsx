@@ -1,5 +1,8 @@
 import { Button, Card, TextField, Typography } from '@mui/material';
 import React, { useCallback, useState } from 'react';
+import Cookies from 'js-cookie';
+import Axios from '../../../AxiosInstance';
+import { AxiosError } from 'axios';
 
 const CommentCard = ({ comment = { id: -1, msg: '' } }) => {
   const [isConfirm, setIsConfirm] = useState(false);
@@ -9,7 +12,35 @@ const CommentCard = ({ comment = { id: -1, msg: '' } }) => {
   const submit = useCallback(() => {
     if (functionMode === 'update') {
       // TODO implement update logic
-      console.log('update');
+      const userToken = Cookies.get('UserToken');
+      Axios.patch(
+        '/comment',
+        {
+          text: msg,
+          commentId: comment.id,
+        },
+        {
+          headers: { Authorization: `Bearer ${userToken}` },
+        }
+      )
+        .then((response) => {
+          if (response.data.success) {
+            // update comment in the parent component
+            setMsg(response.data.data.text)
+            console.log('update success');
+            setIsConfirm(false); // to toggle off the confirm 
+          } else {
+            console.log('Failed to update comment');
+          }
+        })
+        .catch((error) => {
+          if (error instanceof AxiosError && error.response) {
+            console.log(error.response.data);
+          } else {
+            console.log(error.message);
+          }
+        });
+        
     } else if (functionMode === 'delete') {
       // TODO implement delete logic
       console.log('delete');
@@ -17,16 +48,11 @@ const CommentCard = ({ comment = { id: -1, msg: '' } }) => {
       // TODO setStatus (snackbar) to error
       console.log('error');
     }
-  }, [functionMode]);
+  }, [functionMode, msg]);
 
   const changeMode = (mode) => {
     setFunctionMode(mode);
     setIsConfirm(true);
-  };
-
-  const cancelAction = () => {
-    setFunctionMode('');
-    setIsConfirm(false);
   };
 
   return (
