@@ -4,11 +4,11 @@ import Cookies from 'js-cookie';
 import Axios from '../../../AxiosInstance';
 import { AxiosError } from 'axios';
 
-const CommentCard = ({ comment = { id: -1, msg: '' } }) => {
+const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } }) => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [functionMode, setFunctionMode] = useState('update');
   const [msg, setMsg] = useState(comment.msg);
-  
+
   const submit = useCallback(async() => {
     if (functionMode === 'update') {
       // TODO implement update logic
@@ -29,7 +29,7 @@ const CommentCard = ({ comment = { id: -1, msg: '' } }) => {
           // update comment in the parent component
           comment.msg = response.data.data.text;
           console.log('update success');
-          setIsConfirm(false); // to toggle off the confirm 
+          cancelAction(); // to toggle off the confirm 
         } else {
           console.log('Failed to update comment');
         }
@@ -52,9 +52,9 @@ const CommentCard = ({ comment = { id: -1, msg: '' } }) => {
         );
         if (response.data.success) {
           // Perform any necessary actions after successful deletion
-          setMsg(''); 
+          setComments((comments) => comments.filter((c) => c.id !== comment.id));
           console.log('Comment deleted successfully');
-          setIsConfirm(false);
+          cancelAction(); // to toggle off the confirm
         } else {
           console.log('Failed to delete comment');
         }
@@ -69,7 +69,7 @@ const CommentCard = ({ comment = { id: -1, msg: '' } }) => {
       // TODO setStatus (snackbar) to error
       console.log('error');
     }
-  }, [functionMode, msg, setMsg]);
+  }, [functionMode, msg]);
 
   const changeMode = (mode) => {
     setFunctionMode(mode);
