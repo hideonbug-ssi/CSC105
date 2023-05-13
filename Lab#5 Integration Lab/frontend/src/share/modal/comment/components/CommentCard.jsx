@@ -8,12 +8,28 @@ const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } })
   const [isConfirm, setIsConfirm] = useState(false);
   const [functionMode, setFunctionMode] = useState('update');
   const [msg, setMsg] = useState(comment.msg);
+  const [error, setError] = useState({ });
+
+  const checkValidateForm = () => {
+    const error = {};
+    if (msg == '') error.message = 'Comment cannot be empty';
+    setError(error);
+    if (Object.keys(error).length) return false;
+    return true;
+  };
 
   const submit = useCallback(async() => {
     if (functionMode === 'update') {
       // TODO implement update logic
       try {
         const userToken = Cookies.get('UserToken');
+        if (!checkValidateForm()) return;
+        // Check if the comment is not empty or blank
+        if (msg.trim() === '') {
+          console.log('Cannot update a blank comment');
+          return; // Stop further execution
+        }
+        
         const response = await Axios.patch(
           '/comment',
           {
@@ -28,7 +44,7 @@ const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } })
         if (response.data.success) {
           // update comment in the parent component
           comment.msg = response.data.data.text;
-          console.log('update success');
+          console.log('Update success');
           cancelAction(); // to toggle off the confirm 
         } else {
           console.log('Failed to update comment');
@@ -39,8 +55,7 @@ const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } })
         } else {
           console.log(error.message);
         }
-      }
-              
+      }    
     } else if (functionMode === 'delete') {
       // Send DELETE request to the server
       try {
@@ -86,7 +101,12 @@ const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } })
       {!(isConfirm && functionMode == 'update') ? (
         <Typography sx={{ flex: 1 }}>{comment.msg}</Typography>
       ) : (
-        <TextField sx={{ flex: 1 }} value={msg} onChange={(e) => setMsg(e.target.value)} />
+        <TextField sx={{ flex: 1 }} 
+          value={msg} 
+          onChange={(e) => setMsg(e.target.value)}
+          error={!!error.message}
+          helperText={error.message}
+        />
       )}
       {!isConfirm ? (
         <Button onClick={() => changeMode('update')} variant="outlined" color="info">
