@@ -3,12 +3,15 @@ import React, { useCallback, useState } from 'react';
 import Cookies from 'js-cookie';
 import Axios from '../../../AxiosInstance';
 import { AxiosError } from 'axios';
+import { useContext } from 'react';
+import GlobalContext from '../../../Context/GlobalContext';
 
 const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } }) => {
   const [isConfirm, setIsConfirm] = useState(false);
   const [functionMode, setFunctionMode] = useState('update');
   const [msg, setMsg] = useState(comment.msg);
   const [error, setError] = useState({ });
+  const { user, setStatus } = useContext(GlobalContext);
 
   const checkValidateForm = () => {
     const error = {};
@@ -23,13 +26,7 @@ const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } })
       // TODO implement update logic
       try {
         const userToken = Cookies.get('UserToken');
-        if (!checkValidateForm()) return;
-        // Check if the comment is not empty or blank
-        if (msg.trim() === '') {
-          console.log('Cannot update a blank comment');
-          return; // Stop further execution
-        }
-        
+        if (!checkValidateForm()) return; // Check if the comment is not empty or blank        
         const response = await Axios.patch(
           '/comment',
           {
@@ -44,7 +41,8 @@ const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } })
         if (response.data.success) {
           // update comment in the parent component
           comment.msg = response.data.data.text;
-          console.log('Update success');
+          setStatus({ severity: 'success', msg: 'Update success' });
+          // console.log('Update success');
           cancelAction(); // to toggle off the confirm 
         } else {
           console.log('Failed to update comment');
@@ -68,7 +66,8 @@ const CommentCard = ({ comment = { id: -1, msg: '' }, setComments = () => { } })
         if (response.data.success) {
           // Perform any necessary actions after successful deletion
           setComments((comments) => comments.filter((c) => c.id !== comment.id));
-          console.log('Comment deleted successfully');
+          setStatus({ severity: 'success', msg: 'Comment deleted successfully' });
+          // console.log('Comment deleted successfully');
           cancelAction(); // to toggle off the confirm
         } else {
           console.log('Failed to delete comment');
