@@ -1,21 +1,81 @@
 import { Box, Button, Card, Modal, TextField } from '@mui/material';
-import React, { useState } from 'react';
-import { useKeyDown } from '../../../hooks/useKeyDown';
-import commentContext from '../../context/commentContext';
+import React, { useState, useEffect, useContext, createContext } from 'react';
+import { useMutation, useQueryClient, useQuery } from 'react-query';
+import Cookies from 'js-cookie';
+import Axios from '../../../share/AxiosInstance';
+import CommentCard from './CommentCard';
+
+export const CommentContext = createContext();
 
 const CommentModal = ({ open = false, handleClose = () => {} }) => {
   const [textField, setTextField] = useState('');
-  // const [comments, setComments] = useState([]);
-  const { comments, setComments } = useContext(commentContext);
+  const [textFieldError, setTextFieldError] = useState('');
+  const queryClient = useQueryClient();
+  const { comments, setComments } = useContext(CommentContext);
 
-  useKeyDown(() => {
-    handleAddComment();
-  }, ['Enter']);
+  const addCommentMutation = useMutation(
+    (comment) => {
+      const userToken = Cookies.get('UserToken');
+      return Axios.post(
+        '/comment',
+        { text: comment },
+        { headers: { Authorization: `Bearer ${userToken}` } }
+      );
+    },
+    {
+      onSuccess: (data) => {
+        setTextField('');
+        queryClient.invalidateQueries('comments');
+        console.log('Create comment successfully');
+        setComments((prevComments) => [
+          ...prevComments,
+          { id: data.data.id, msg: textField },
+        ]);
+      },
+      onError: (error) => {
+        setTextField('');
+        if (error.response) {
+          setStatus({
+            msg: error.response.data.error,
+            severity: 'error',
+          });
+        } else {
+          setStatus({
+            msg: error.message,
+            severity: 'error',
+          });
+        }
+      },
+    }
+  );
+
+  useEffect(() => {
+    const userToken = Cookies.get('UserToken');
+    if (userToken !== undefined && userToken !== 'undefined') {
+      queryClient.invalidateQueries('comments');
+    }
+  }, []);
 
   const handleAddComment = () => {
-    // TODO implement logic
-    
+    if (!validateForm()) return;
+    addCommentMutation.mutate(textField);
   };
+
+  const validateForm = () => {
+    let isValid = true;
+    if (!textField) {
+      setTextFieldError('Comment is required');
+      isValid = false;
+    }
+    return isValid;
+  };
+
+  const { data: commentsData, isLoading, isError } = useQuery('comments', async () => {
+    const userToken = Cookies.get('UserToken');
+    const response = await Axios.get('/comment', { headers: { Authorization: `Bearer ${userToken}` } });
+    return response.data.data.map((el) => ({ id: el.id, msg: el.text }));
+  });
+
   return (
     <Modal open={open} onClose={handleClose}>
       <Card
@@ -47,11 +107,17 @@ const CommentModal = ({ open = false, handleClose = () => {} }) => {
           <Button onClick={handleAddComment}>Submit</Button>
         </Box>
         <Box sx={{ overflowY: 'scroll', maxHeight: 'calc(400px - 2rem)' }}>
-          {comments.map((comment) => (
-            <Card key={comment.id} sx={{ p: '1rem', m: '0.5rem' }}>
-              {comment.msg}
-            </Card>
-          ))}
+          {isLoading ? (
+            <div>Loading comments...</div>
+          ) : isError ? (
+            <div>Error fetching comments</div>
+          ) : (
+            commentsData.map((comment) => (
+              <CommentCard key={comment.id} sx={{ p: '1rem', m: '0.5rem' }}>
+                {comment.msg}
+              </CommentCard>
+            ))
+          )}
         </Box>
       </Card>
     </Modal>
